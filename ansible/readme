@@ -1,1 +1,11 @@
 ansible-playbook -i inventory_aws_ec2.yaml playbook.yaml
+
+# Roles download
+
+git clone https://github.com/sagardpatil0055/ansible-role-nodejs.git
+
+git clone https://github.com/sagardpatil0055/ansible-role-jenkins.git
+
+git clone https://github.com/sagardpatil0055/ansible-role-docker.git
+
+git clone https://github.com/sagardpatil0055/ansible-role-nginx.git

@@ -1,0 +1,5 @@
+- name: Install Docker on app and jenkins
+  hosts: app,jenkins
+  become: yes
+  roles:
+    - role: ansible-role-docker

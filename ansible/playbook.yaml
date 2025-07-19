@@ -4,6 +4,14 @@
   roles:
     - role: ansible-role-docker
 
+- name: Add current user to docker group
+  become: yes
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+
 - name: Install Jenkins with OpenJDK 21 on Ubuntu
   hosts: _jenkins
   become: yes

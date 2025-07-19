@@ -23,8 +23,3 @@
   become: yes
   roles:
     - role: ansible-role-jenkins
-
-    - name: Restart Jenkins service
-      service:
-        name: jenkins
-        state: restarted

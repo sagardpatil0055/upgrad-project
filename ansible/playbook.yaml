@@ -3,3 +3,9 @@
   become: yes
   roles:
     - role: ansible-role-docker
+
+- name: Install jenkins on jenkins
+  hosts: jenkins
+  become: yes
+  roles:
+    - role: ansible-role-jenkins

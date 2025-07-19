@@ -19,19 +19,3 @@ locals {
   my_ip_cidr = "${trimspace(data.http.my_ip.response_body)}/32"
 }
 
-
- 
-    cidr_blocks = [local.my_ip_cidr]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "public-sg"
-  }
-}

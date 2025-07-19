@@ -4,22 +4,50 @@
   roles:
     - role: ansible-role-docker
 
-- name: Install Java 
+- name: Install Jenkins with OpenJDK 21 on Ubuntu
   hosts: _jenkins
   become: yes
+
   tasks:
-    - name: Update APT cache
+    - name: Update apt cache
       apt:
         update_cache: yes
+
+    - name: Add OpenJDK PPA (if needed for JDK 21)
+      apt_repository:
+        repo: ppa:openjdk-r/ppa
+        state: present
 
     - name: Install OpenJDK 21
       apt:
         name: openjdk-21-jdk
         state: present
 
+    - name: Download Jenkins GPG key
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+        mode: '0644'
 
-- name: Install jenkins on jenkins
-  hosts: _jenkins
-  become: yes
-  roles:
-    - role: ansible-role-jenkins
+    - name: Add Jenkins apt repository (manual echo method)
+      copy:
+        dest: /etc/apt/sources.list.d/jenkins.list
+        content: |
+          deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
+        mode: '0644'
+
+    - name: Update apt cache after adding Jenkins repo
+      apt:
+        update_cache: yes
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Ensure Jenkins is started and enabled
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+

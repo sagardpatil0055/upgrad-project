@@ -27,3 +27,10 @@ EOL
 
 # Confirm update
 echo "Updated /etc/ansible/ansible.cfg with new defaults."
+
+git clone https://github.com/sagardpatil0055/ansible-role-nodejs.git && \
+git clone https://github.com/sagardpatil0055/ansible-role-jenkins.git && \
+git clone https://github.com/sagardpatil0055/ansible-role-docker.git && \
+git clone https://github.com/sagardpatil0055/ansible-role-nginx.git
+
+echo "✅ All roles cloned into the 'roles' directory."

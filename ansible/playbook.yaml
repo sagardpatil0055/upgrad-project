@@ -1,11 +1,11 @@
 - name: Install Docker on app and jenkins
-  hosts: app,jenkins
+  hosts: _app,_jenkins
   become: yes
   roles:
     - role: ansible-role-docker
 
 - name: Install jenkins on jenkins
-  hosts: jenkins
+  hosts: _jenkins
   become: yes
   roles:
     - role: ansible-role-jenkins

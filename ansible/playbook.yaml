@@ -25,7 +25,6 @@
         owner: ubuntu
         group: ubuntu
         mode: '0400'
-        remote_src: yes
 
 
 - name: Install Jenkins with OpenJDK 21 on Ubuntu

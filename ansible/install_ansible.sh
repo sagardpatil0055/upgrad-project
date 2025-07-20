@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd .. && cd key && cp project.pem /home/ubuntu/
-
 # Add Ansible PPA
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 
@@ -36,3 +34,5 @@ git clone https://github.com/sagardpatil0055/ansible-role-docker.git && \
 git clone https://github.com/sagardpatil0055/ansible-role-nginx.git
 
 echo "✅ All roles cloned into the 'roles' directory."
+
+cd .. && cd key && cp project.pem /home/ubuntu/

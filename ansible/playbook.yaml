@@ -76,3 +76,23 @@
         name: jenkins
         state: started
         enabled: yes
+
+---
+- name: Setup Amazon ECR credential helper on EC2
+  hosts: _jenkins,_app
+  become: yes
+  vars:
+    aws_account_id: "980104576357"
+    aws_region: "us-east-1"
+    ecr_repo_name: "test-nodeapp-repo"
+    install_command: "apt-get update -y && apt-get install -y amazon-ecr-credential-helper"
+
+  tasks:
+    - name: Copy ECR setup script
+      template:
+        src: templates/setup-ecr-auth.sh.j2
+        dest: /tmp/setup-ecr-auth.sh
+        mode: '0755'
+
+    - name: Run ECR setup script
+      shell: bash /tmp/setup-ecr-auth.sh

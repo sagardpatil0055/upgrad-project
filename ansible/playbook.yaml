@@ -97,7 +97,7 @@
       shell: bash /tmp/setup-ecr-auth.sh
 
 - name: Install AWS CLI v2 on Ubuntu
-  hosts: _jenkins
+  hosts: _jenkins,_app
   become: true
   tasks:
     - name: Update apt and install unzip & curl

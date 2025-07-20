@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd .. && cd .. && cp /key/project.pem /home/ubuntu/
+cd .. && cd key && cp project.pem /home/ubuntu/
 
 # Add Ansible PPA
 sudo apt-add-repository --yes --update ppa:ansible/ansible

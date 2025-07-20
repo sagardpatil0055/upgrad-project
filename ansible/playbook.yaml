@@ -95,3 +95,37 @@
 
     - name: Run ECR setup script
       shell: bash /tmp/setup-ecr-auth.sh
+
+- name: Install AWS CLI v2 on Ubuntu
+  hosts: _jenkins
+  become: true
+  tasks:
+    - name: Update apt and install unzip & curl
+      apt:
+        name:
+          - unzip
+          - curl
+        state: present
+        update_cache: yes
+
+    - name: Download AWS CLI zip
+      get_url:
+        url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+        dest: /tmp/awscliv2.zip
+
+    - name: Unzip AWS CLI installer
+      unarchive:
+        src: /tmp/awscliv2.zip
+        dest: /tmp
+        remote_src: yes
+
+    - name: Run AWS CLI installer
+      command: /tmp/aws/install
+
+    - name: Verify AWS CLI installation
+      command: aws --version
+      register: aws_version
+
+    - name: Show installed version
+      debug:
+        msg: "Installed AWS CLI version: {{ aws_version.stdout }}"

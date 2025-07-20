@@ -28,7 +28,7 @@
 
 
 - name: Install Jenkins with OpenJDK 21 on Ubuntu
-  hosts: _jenkins
+  hosts: _jenkins,_app
   become: yes
   tasks:
     - name: Update apt cache
@@ -45,6 +45,10 @@
         name: openjdk-21-jdk
         state: present
 
+- name: Install Jenkins with OpenJDK 21 on Ubuntu
+  hosts: _jenkins
+  become: yes
+  tasks:
     - name: Download Jenkins GPG key
       get_url:
         url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key

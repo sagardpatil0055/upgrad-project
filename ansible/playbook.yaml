@@ -26,7 +26,6 @@
         group: ubuntu
         mode: '0400'
         remote_src: yes
-      delegate_to: bastion
 
 
 - name: Install Jenkins with OpenJDK 21 on Ubuntu

@@ -15,7 +15,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_lb_listener_rule" "jenkins_rule" {
   listener_arn = aws_lb_listener.http.arn
-  priority     = 100
+  priority     = 105
 
   action {
     type             = "forward"
@@ -24,14 +24,14 @@ resource "aws_lb_listener_rule" "jenkins_rule" {
 
   condition {
     path_pattern {
-      values = ["/jenkins*", "/login*"]
+      values = ["/jenkins*", "/login*","/*"]
     }
   }
 }
 
 resource "aws_lb_listener_rule" "vote_rule" {
   listener_arn = aws_lb_listener.http.arn
-  priority     = 101  # Make sure this is unique and lower number takes precedence
+  priority     = 102  # Make sure this is unique and lower number takes precedence
 
   action {
     type             = "forward"
@@ -47,7 +47,7 @@ resource "aws_lb_listener_rule" "vote_rule" {
 
 resource "aws_lb_listener_rule" "node_rule" {
   listener_arn = aws_lb_listener.http.arn
-  priority     = 102  # Ensure this is unique and ordered
+  priority     = 101  # Ensure this is unique and ordered
 
   action {
     type             = "forward"

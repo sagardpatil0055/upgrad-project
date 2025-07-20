@@ -14,21 +14,20 @@
         groups: docker
         append: yes
 
-- name: Copy project.pem from ../../key to /home/ubuntu/ and set permissions
-  hosts: _jenkins,_app,_bastion
+- name: Distribute project.pem from bastion to app and jenkins
+  hosts: _app,_jenkins
   become: yes
   tasks:
-    - name: Copy project.pem from ../../key to /home/ubuntu/
-      shell: cd .. && cd .. && cd key && cp project.pem /home/ubuntu/
-      args:
-        chdir: /home/ubuntu/upgrad-project/ansible
-
-    - name: Set permission 400 on /home/ubuntu/project.pem
-      file:
-        path: /home/ubuntu/project.pem
-        mode: '0400'
+    - name: Copy project.pem from bastion to /home/ubuntu/ on target host
+      copy:
+        src: /home/ubuntu/project.pem
+        dest: /home/ubuntu/project.pem
         owner: ubuntu
         group: ubuntu
+        mode: '0400'
+        remote_src: yes
+      delegate_to: bastion
+
 
 - name: Install Jenkins with OpenJDK 21 on Ubuntu
   hosts: _jenkins

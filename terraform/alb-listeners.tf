@@ -44,3 +44,19 @@ resource "aws_lb_listener_rule" "vote_rule" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "node_rule" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 102  # Ensure this is unique and ordered
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.node_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/node*"]
+    }
+  }
+}

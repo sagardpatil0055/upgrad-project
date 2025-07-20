@@ -1,0 +1,28 @@
+#!/bin/bash
+
+AWS_ACCOUNT_ID="{{ aws_account_id }}"
+REGION="{{ aws_region }}"
+REPO_NAME="{{ ecr_repo_name }}"
+ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
+
+echo "[*] Installing amazon-ecr-credential-helper..."
+{{ install_command }}
+
+echo "[*] Configuring Docker credential helper..."
+mkdir -p ~/.docker
+cat > ~/.docker/config.json <<EOF
+{
+  "credHelpers": {
+    "${ECR_URL}": "ecr-login"
+  }
+}
+EOF
+
+echo "[*] Verifying ECR login and pulling from repo..."
+aws ecr describe-repositories --repository-names ${REPO_NAME} --region ${REGION} >/dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+  echo "[✓] Successfully connected to ECR repository: ${REPO_NAME}"
+else
+  echo "[✗] Unable to access ECR repo. Please check IAM permissions or AWS CLI config."
+fi

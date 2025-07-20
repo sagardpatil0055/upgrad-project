@@ -55,7 +55,7 @@ resource "aws_lb_target_group" "node_tg" {
 
 resource "aws_lb_target_group_attachment" "node_attachment" {
   target_group_arn = aws_lb_target_group.node_tg.arn
-  target_id        = aws_instance.node.id
+  target_id        = aws_instance.app.id
   port             = 8081
 }
 
@@ -84,7 +84,7 @@ resource "aws_lb_target_group" "vote_tg" {
 
 resource "aws_lb_target_group_attachment" "vote_attachment" {
   target_group_arn = aws_lb_target_group.vote_tg.arn
-  target_id        = aws_instance.vote.id
+  target_id        = aws_instance.app.id
   port             = 5000
 }
 

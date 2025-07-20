@@ -77,7 +77,6 @@
         state: started
         enabled: yes
 
----
 - name: Setup Amazon ECR credential helper on EC2
   hosts: _jenkins,_app
   become: yes

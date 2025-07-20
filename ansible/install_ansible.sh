@@ -35,4 +35,4 @@ git clone https://github.com/sagardpatil0055/ansible-role-nginx.git
 
 echo "✅ All roles cloned into the 'roles' directory."
 
-cd .. && cd key && cp project.pem /home/ubuntu/
+cd /home/ubuntu/upgrad-project/key && cp project.pem /home/ubuntu/ && chmod 400 /home/ubuntu/project.pem

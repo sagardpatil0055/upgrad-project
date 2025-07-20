@@ -28,3 +28,19 @@ resource "aws_lb_listener_rule" "jenkins_rule" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "vote_rule" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 101  # Make sure this is unique and lower number takes precedence
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.vote_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/vote*"]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  upg-app:
+    build: .
+    container_name: upg-app-container
+    ports:
+      - "8081:8081"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

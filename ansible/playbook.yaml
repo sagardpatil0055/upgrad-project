@@ -77,28 +77,28 @@
         state: started
         enabled: yes
 
-- name: Setup ECR Credential Helper on Jenkins and App hosts
+---
+- name: Install ECR Credential Helper on _jenkins and _app
   hosts: _jenkins,_app
   become: true
   vars:
     ecr_registry: "980104576357.dkr.ecr.us-east-1.amazonaws.com"
+    helper_version: "v0.7.0"
 
   tasks:
-    - name: Install dependencies
+    - name: Install curl
       apt:
-        name: [git, make, golang-go]
+        name: curl
         state: present
         update_cache: yes
 
-    - name: Clone and build ECR credential helper
-      shell: |
-        git clone https://github.com/awslabs/amazon-ecr-credential-helper.git /tmp/ecr-helper
-        cd /tmp/ecr-helper && make
-        cp bin/local/docker-credential-ecr-login /usr/local/bin/
-      args:
-        creates: /usr/local/bin/docker-credential-ecr-login
+    - name: Download precompiled ECR credential helper binary
+      get_url:
+        url: "https://amazon-ecr-credential-helper-releases.s3.us-east-2.amazonaws.com/{{ helper_version }}/linux-amd64/docker-credential-ecr-login"
+        dest: /usr/local/bin/docker-credential-ecr-login
+        mode: '0755'
 
-    - name: Create Docker config directory
+    - name: Create Docker config dir
       become_user: ubuntu
       file:
         path: /home/ubuntu/.docker
@@ -116,6 +116,7 @@
             }
           }
         mode: '0600'
+
 
 - name: Install AWS CLI v2 on Ubuntu
   hosts: _jenkins,_app

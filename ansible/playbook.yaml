@@ -77,50 +77,36 @@
         state: started
         enabled: yes
 
-- name: Install ECR Credential Helper on _jenkins and _app
+- name: Install ECR Credential Helper and configure Docker
   hosts: _jenkins,_app
   become: true
-  vars:
-    ecr_registry: "980104576357.dkr.ecr.us-east-1.amazonaws.com"
-    helper_version: "v0.7.0"
 
   tasks:
-    - name: Install curl and unzip
-      apt:
-        name: [curl, unzip]
-        state: present
-        update_cache: yes
+    - name: Update apt cache
+      shell: apt update
 
-    - name: Download ECR credential helper zip
-      get_url:
-        url: "https://github.com/awslabs/amazon-ecr-credential-helper/releases/download/{{ helper_version }}/docker-credential-ecr-login-{{ helper_version }}-linux-amd64.zip"
-        dest: "/tmp/docker-credential-ecr-login.zip"
-        mode: '0644'
+    - name: Install amazon-ecr-credential-helper
+      shell: apt install -y amazon-ecr-credential-helper
 
-    - name: Unzip the binary
-      unarchive:
-        src: "/tmp/docker-credential-ecr-login.zip"
-        dest: "/usr/local/bin/"
-        remote_src: yes
-        mode: '0755'
-
-    - name: Create Docker config directory
-      become_user: ubuntu
+    - name: Create .docker directory for ubuntu user
       file:
         path: /home/ubuntu/.docker
         state: directory
+        owner: ubuntu
+        group: ubuntu
         mode: '0700'
 
     - name: Configure Docker to use ECR credential helper
-      become_user: ubuntu
       copy:
         dest: /home/ubuntu/.docker/config.json
         content: |
           {
             "credHelpers": {
-              "{{ ecr_registry }}": "ecr-login"
+              "980104576357.dkr.ecr.us-east-1.amazonaws.com": "ecr-login"
             }
           }
+        owner: ubuntu
+        group: ubuntu
         mode: '0600'
 
 

@@ -120,7 +120,7 @@
         remote_src: yes
 
     - name: Run AWS CLI installer
-      command: /tmp/aws/install
+      command: /tmp/aws/install --update
 
     - name: Verify AWS CLI installation
       command: aws --version

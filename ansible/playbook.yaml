@@ -77,7 +77,6 @@
         state: started
         enabled: yes
 
----
 - name: Install ECR Credential Helper on _jenkins and _app
   hosts: _jenkins,_app
   become: true

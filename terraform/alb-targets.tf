@@ -88,3 +88,32 @@ resource "aws_lb_target_group_attachment" "vote_attachment" {
   port             = 5000
 }
 
+# result app target group 
+resource "aws_lb_target_group" "result_tg" {
+  name        = "result-app-tg"
+  port        = 5001
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.sagar.id
+  target_type = "instance"
+
+  health_check {
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200-399"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+
+  tags = {
+    Name = "result-app-tg"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "result_attachment" {
+  target_group_arn = aws_lb_target_group.result_tg.arn
+  target_id        = aws_instance.app.id
+  port             = 5001
+}
+

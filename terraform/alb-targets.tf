@@ -11,7 +11,7 @@ resource "aws_lb_target_group" "jenkins_tg" {
   health_check {
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-399"
+    matcher             = "200-499"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -41,7 +41,7 @@ resource "aws_lb_target_group" "node_tg" {
   health_check {
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-399"
+    matcher             = "200-499"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -70,7 +70,7 @@ resource "aws_lb_target_group" "vote_tg" {
   health_check {
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-399"
+    matcher             = "200-499"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -99,7 +99,7 @@ resource "aws_lb_target_group" "result_tg" {
   health_check {
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-399"
+    matcher             = "200-499"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2

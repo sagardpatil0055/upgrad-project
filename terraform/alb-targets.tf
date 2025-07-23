@@ -62,7 +62,7 @@ resource "aws_lb_target_group_attachment" "node_attachment" {
 #vote app target group 
 resource "aws_lb_target_group" "vote_tg" {
   name        = "vote-app-tg"
-  port        = 5000
+  port        = 8083
   protocol    = "HTTP"
   vpc_id      = aws_vpc.sagar.id
   target_type = "instance"
@@ -85,13 +85,13 @@ resource "aws_lb_target_group" "vote_tg" {
 resource "aws_lb_target_group_attachment" "vote_attachment" {
   target_group_arn = aws_lb_target_group.vote_tg.arn
   target_id        = aws_instance.app.id
-  port             = 5000
+  port             = 8083
 }
 
 # result app target group 
 resource "aws_lb_target_group" "result_tg" {
   name        = "result-app-tg"
-  port        = 5001
+  port        = 8082
   protocol    = "HTTP"
   vpc_id      = aws_vpc.sagar.id
   target_type = "instance"
@@ -114,6 +114,6 @@ resource "aws_lb_target_group" "result_tg" {
 resource "aws_lb_target_group_attachment" "result_attachment" {
   target_group_arn = aws_lb_target_group.result_tg.arn
   target_id        = aws_instance.app.id
-  port             = 5001
+  port             = 8082
 }
 

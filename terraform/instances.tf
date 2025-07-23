@@ -6,6 +6,7 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids      = [aws_security_group.public_sg.id]
   associate_public_ip_address = true
   key_name                    = "project"
+  iam_instance_profile        = aws_iam_instance_profile.ec2readonly_profile.name
   tags = {
     Name = "bastion"
   }

@@ -29,21 +29,21 @@ resource "aws_lb_listener_rule" "jenkins_rule" {
   }
 }
 
-resource "aws_lb_listener_rule" "vote_rule" {
-  listener_arn = aws_lb_listener.http.arn
-  priority     = 102  # Make sure this is unique and lower number takes precedence
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.vote_tg.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/vote*"]
-    }
-  }
-}
+# resource "aws_lb_listener_rule" "vote_rule" {
+#   listener_arn = aws_lb_listener.http.arn
+#   priority     = 102  # Make sure this is unique and lower number takes precedence
+#
+#   action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.vote_tg.arn
+#   }
+#
+#   condition {
+#     path_pattern {
+#       values = ["/vote*"]
+#     }
+#   }
+# }
 
 resource "aws_lb_listener_rule" "node_rule" {
   listener_arn = aws_lb_listener.http.arn
@@ -61,21 +61,22 @@ resource "aws_lb_listener_rule" "node_rule" {
   }
 }
 
-resource "aws_lb_listener_rule" "result_rule" {
-  listener_arn = aws_lb_listener.http.arn
-  priority     = 103  # Ensure this is unique
+# resource "aws_lb_listener_rule" "result_rule" {
+#   listener_arn = aws_lb_listener.http.arn
+#   priority     = 103  # Ensure this is unique
+#
+#   action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.result_tg.arn
+#   }
+#
+#   condition {
+#     path_pattern {
+#       values = ["/result*"]
+#     }
+#   }
+# }
 
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.result_tg.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/result*"]
-    }
-  }
-}
 resource "aws_lb_listener" "vote_http" {
   load_balancer_arn = aws_lb.sagar_alb.arn
   port              = 8083

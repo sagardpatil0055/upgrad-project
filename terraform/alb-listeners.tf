@@ -76,4 +76,64 @@ resource "aws_lb_listener_rule" "result_rule" {
     }
   }
 }
+resource "aws_lb_listener" "vote_http" {
+  load_balancer_arn = aws_lb.sagar_alb.arn
+  port              = 8083
+  protocol          = "HTTP"
 
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default response on 8083"
+      status_code  = "200"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "vote_rule" {
+  listener_arn = aws_lb_listener.vote_http.arn
+  priority     = 110
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.vote_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/*","/vote"]
+    }
+  }
+}
+
+resource "aws_lb_listener" "result_http" {
+  load_balancer_arn = aws_lb.sagar_alb.arn
+  port              = 8082
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default response on 8082"
+      status_code  = "200"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "result_rule" {
+  listener_arn = aws_lb_listener.result_http.arn
+  priority     = 115
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.result_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/result","/*"]
+    }
+  }
+}
